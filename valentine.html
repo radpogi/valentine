@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine? ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffd1dc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.96);
+      padding: 35px 25px 45px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      text-align: center;
+      width: 92%;
+      max-width: 420px;
+      position: relative;
+      animation: popIn 0.7s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.75); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1, h2 {
+      font-family: 'Pacifico', cursive;
+      color: #ff4b6e;
+    }
+
+    h1 { font-size: 30px; margin-bottom: 5px; }
+    h2 { margin-bottom: 10px; }
+
+    .subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .heart {
+      font-size: 60px;
+      animation: beat 1.2s infinite;
+      margin: 10px 0 5px;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin: 10px 0 20px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 13px 26px;
+      font-size: 16px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-weight: 600;
+    }
+
+    .yes {
+      background: linear-gradient(135deg, #ff4b6e, #ff758c);
+      color: white;
+      box-shadow: 0 6px 18px rgba(255, 75, 110, 0.45);
+    }
+
+    .yes:hover { transform: scale(1.08); }
+
+    .no {
+      background: #f0f0f0;
+      color: #666;
+      position: relative;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ff4b6e;
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 6s linear forwards;
+      opacity: 0.85;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.4) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translateY(-10vh) scale(1.3) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      animation: sparkle 1s linear forwards;
+    }
+
+    @keyframes sparkle {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    .footer-note {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      left: 0;
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .hidden { display: none; }
+
+    .photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px auto 15px;
+      border: 4px solid #ffb6c1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .final-card {
+      display: none;
+      animation: popIn 0.6s ease-out;
+    }
+
+    .final-card p { font-size: 15px; color: #555; margin-bottom: 15px; }
+
+    .love-list {
+      text-align: left;
+      font-size: 14px;
+      color: #666;
+      margin: 10px auto 15px;
+      max-width: 300px;
+    }
+
+    .love-list li { margin-bottom: 6px; }
+
+    /* Slideshow */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+      margin: 10px auto 15px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .slideshow img {
+      width: 100%;
+      display: none;
+    }
+
+    .slideshow img.active { display: block; }
+
+    /* Typewriter */
+    .typewriter {
+      font-size: 15px;
+      color: #555;
+      min-height: 60px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    /* Music control */
+    .music-control {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #ff4b6e;
+      color: white;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 75, 110, 0.4);
+    }
+
+    /* Surprise card */
+    .surprise-card {
+      display: none;
+      animation: popIn 0.6s ease-out;
+    }
+
+    .surprise-card h2 { margin-bottom: 10px; }
+
+    .surprise-card p { font-size: 15px; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+  <source src="valentine.mp3" type="audio/mpeg">
+</audio>
+  <div class="container">
+    <div class="music-control" id="musicToggle">🔊 Music On</div>
+
+    <!-- QUESTION CARD -->
+    <div id="questionCard">
+      <h1>Will you be my Valentine? 💖</h1>
+      <div class="subtitle">From your boyfriend who loves you very much</div>
+      <div class="heart">❤️</div>
+      <p>
+        Hi <strong>My Love</strong>! 🥰<br />
+        I have a very important question for you...
+      </p>
+
+      <div class="buttons">
+        <button class="yes" id="yesBtn">Yes 💕</button>
+        <button class="no" id="noBtn">No 😢</button>
+      </div>
+
+      <div class="message" id="message"></div>
+    </div>
+
+    <!-- FINAL CARD -->
+    <div class="final-card" id="finalCard">
+      <h2>YAY!!! 😍</h2>
+
+      <!-- Slideshow of your photos -->
+      <div class="slideshow" id="slideshow">
+        <!-- Replace these image URLs with your own photos -->
+        <img src="slide1.jpg" class="active" />
+        <img src="slide2.jpg" />
+        <img src="slide3.jpg" />
+      </div>
+
+      <!-- Typewriter Love Letter -->
+      <div class="typewriter" id="typewriter"></div>
+
+      <ul class="love-list">
+        <li>💖 I love your smile</li>
+        <li>💖 I love your laugh</li>
+        <li>💖 I love how you make me feel safe</li>
+        <li>💖 I love how you understand me</li>
+        <li>💖 I love you always</li>
+      </ul>
+
+      <p>Happy Valentine’s Day, my love! 🌹</p>
+
+      <button class="yes" id="surpriseBtn">Click for a Surprise 🎁</button>
+    </div>
+
+    <!-- SURPRISE CARD -->
+    <div class="surprise-card" id="surpriseCard">
+      <h2>One More Thing... 💌</h2>
+      <p>
+        I just want you to know that no matter what happens, I will always choose you, love you, and stay by your side. 💖
+      </p>
+      <p>
+        Thank you for being my greatest blessing. I love you more than words can say. 🥰
+      </p>
+      <p>Forever yours, 💕</p>
+    </div>
+
+    <div class="footer-note">Made with love 💌</div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const heartsContainer = document.getElementById('hearts');
+    const questionCard = document.getElementById('questionCard');
+    const finalCard = document.getElementById('finalCard');
+    const surpriseCard = document.getElementById('surpriseCard');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const typewriter = document.getElementById('typewriter');
+    const slideshow = document.getElementById('slideshow');
+    const music = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+
+    let noClickCount = 0;
+    let musicPlaying = false;
+
+    // Music toggle
+    musicToggle.addEventListener('click', () => {
+      if (musicPlaying) {
+        music.pause();
+        musicToggle.textContent = '🔇 Music Off';
+      } else {
+        music.play();
+        musicToggle.textContent = '🔊 Music On';
+      }
+      musicPlaying = !musicPlaying;
+    });
+
+    yesBtn.addEventListener('click', () => {
+      message.style.display = 'block';
+      message.textContent = 'YAY!!! 😍 I love you so much!';
+      createHearts();
+      createSparkles();
+
+      // Start music automatically when she says yes
+      if (!musicPlaying) {
+        music.play();
+        musicPlaying = true;
+        musicToggle.textContent = '🔊 Music On';
+      }
+
+      setTimeout(() => {
+        questionCard.style.display = 'none';
+        finalCard.style.display = 'block';
+        startTypewriter();
+        startSlideshow();
+        createHearts();
+      }, 1200);
+    });
+
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('click', moveNoButton);
+
+    function moveNoButton() {
+      noClickCount++;
+
+      const container = document.querySelector('.container');
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = containerRect.width - btnRect.width;
+      const maxY = containerRect.height - btnRect.height - 60;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY + 60;
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+
+      const funnyMessages = [
+        "Uy wag! 😭",
+        "Sure ka na? 🥺",
+        "Please... 🥹",
+        "Try mo ulit! 😘",
+        "Ayaw mo ba talaga? 💔",
+        "Love mo naman ako diba? 🥰",
+        "Hindi pwede yan! 😆",
+      ];
+
+      if (noClickCount <= funnyMessages.length) {
+        message.style.display = 'block';
+        message.textContent = funnyMessages[noClickCount - 1];
+      }
+    }
+
+    // Hearts animation
+    function createHearts() {
+      for (let i = 0; i < 35; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.textContent = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDelay = Math.random() * 2 + 's';
+        heart.style.fontSize = 14 + Math.random() * 28 + 'px';
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }
+    }
+
+    // Sparkles
+    function createSparkles() {
+      for (let i = 0; i < 25; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = Math.random() * 100 + 'vw';
+        sparkle.style.top = Math.random() * 100 + 'vh';
+        sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      }
+    }
+
+    // Typewriter effect
+    const loveLetterText = `Hi my love ❤️\n\nFrom the moment you came into my life, everything became brighter, warmer, and more meaningful. You are my safe place, my happiness, and my greatest blessing.\n\nThank you for loving me, understanding me, and staying with me. I promise to always love you, respect you, and choose you every single day. 💕\n\nHappy Valentine’s Day, my forever love. 🌹`;
+
+    let typeIndex = 0;
+
+    function startTypewriter() {
+      typewriter.textContent = '';
+      typeIndex = 0;
+      typeText();
+    }
+
+    function typeText() {
+      if (typeIndex < loveLetterText.length) {
+        typewriter.textContent += loveLetterText.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(typeText, 35);
+      }
+    }
+
+    // Slideshow
+    let slideIndex = 0;
+    function startSlideshow() {
+      const slides = slideshow.querySelectorAll('img');
+      setInterval(() => {
+        slides[slideIndex].classList.remove('active');
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add('active');
+      }, 2500);
+    }
+
+    // Surprise card
+    surpriseBtn.addEventListener('click', () => {
+      finalCard.style.display = 'none';
+      surpriseCard.style.display = 'block';
+      createHearts();
+      createSparkles();
+    });
+  </script>
+</body>
+</html>
